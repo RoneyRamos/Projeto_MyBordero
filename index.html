@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBorderô - Gestão de Atelier</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div id="login-screen" class="login-container">
+        <div class="login-card">
+            <div class="login-logo-wrapper">
+                <img src="imagem/myBordero.jpg" alt="MyBorderô Logo" class="atelier-logo-img">
+                <h1>MyBorderô</h1>
+                <p>Sistema de Gestão para Atelier e Costura</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label for="username">Usuário Admin</label>
+                    <input type="text" id="username" placeholder="Digite o Login" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" placeholder="Digite a Senha" required>
+                </div>
+                <div id="login-error" class="error-message hidden">
+                    Credenciais inválidas. Use Admin / Admin.
+                </div>
+                <button type="submit" class="btn-primary btn-block">Entrar no Atelier</button>
+            </form>
+        </div>
+    </div>
+ 
+    <div id="main-dashboard" class="dashboard-container hidden">
+        
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir Menu">
+            <i data-lucide="menu"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="imagem/myBordero.jpg" alt="MyBorderô Mini Logo" class="atelier-logo-mini-img">
+                <div class="brand-text">
+                    <h2>MyBorderô</h2>
+                    <span>Alta Costura & Arte </span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button onclick="switchTab('tab-clientes')" class="nav-item active" id="btn-tab-clientes">
+                    <i data-lucide="scissors"></i> <span>Cadastro de Clientes</span>
+                </button>
+                <button onclick="switchTab('tab-funcionarios')" class="nav-item" id="btn-tab-funcionarios">
+                    <i data-lucide="contact-2"></i> <span>Cadastrar Funcionários</span>
+                </button>
+                <button onclick="switchTab('tab-os')" class="nav-item" id="btn-tab-os">
+                    <i data-lucide="layers"></i> <span>Ordens de Serviço</span>
+                </button>
+                <button onclick="switchTab('tab-reparos')" class="nav-item" id="btn-tab-reparos">
+                    <i data-lucide="activity"></i> <span>Reparos e Serviços</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span class="user-name">Alfaiate Admin</span>
+                    <span class="user-role">Gerente Geral</span>
+                </div>
+                <button onclick="handleLogout()" class="btn-logout" title="Sair do MyBorderô">
+                    <i data-lucide="power"></i>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1 id="page-title">Cadastro de Clientes</h1>
+                <div class="atelier-badge">Atelier Mode 2026</div>
+            </header>
+
+            <div class="content-body">
+
+                <div id="tab-clientes" class="tab-pane">
+                    <div class="card">
+                        <h3><i data-lucide="user"></i> Dados Pessoais do Cliente</h3>
+                        <form id="form-cliente" onsubmit="cadastrarCliente(event)">
+                            <div class="row cols-3">
+                                <div class="input-group span-2">
+                                    <label>Nome Completo</label>
+                                    <input type="text" id="cli-nome" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>WhatsApp</label>
+                                    <input type="text" id="cli-whatsapp" placeholder="(00) 00000-0000" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-group">
+                                    <label>E-mail</label>
+                                    <input type="email" id="cli-email" required>
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <legend>Endereço de Entrega/Residência</legend>
+                                <div class="row cols-3">
+                                    <div class="input-group span-2">
+                                        <label>Rua / Logradouro</label>
+                                        <input type="text" id="cli-rua" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Número da Casa</label>
+                                        <input type="text" id="cli-numero" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-group">
+                                        <label>Ponto de Referência</label>
+                                        <input type="text" id="cli-referencia" placeholder="Próximo a...">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="tailor-fieldset">
+                                <legend>Prontuário de Medidas de Alta Costura (cm)</legend>
+                                <div class="row mb-4">
+                                    <div class="input-group max-w-200">
+                                        <label>Tamanho Base</label>
+                                        <select id="cli-tamanho">
+                                            <option value="P">P</option>
+                                            <option value="M">M</option>
+                                            <option value="G">G</option>
+                                            <option value="GG">GG</option>
+                                            <option value="XG">XG</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid-medidas">
+                                    <div class="input-group"><label>Pescoço</label><input type="number" id="m-pescoco"></div>
+                                    <div class="input-group"><label>Tórax</label><input type="number" id="m-torax"></div>
+                                    <div class="input-group"><label>Alt. Busto</label><input type="number" id="m-alt-busto"></div>
+                                    <div class="input-group"><label>Sep. Busto</label><input type="number" id="m-sep-busto"></div>
+                                    <div class="input-group"><label>Alt. Cava</label><input type="number" id="m-alt-cava"></div>
+                                    <div class="input-group"><label>Larg. Costa</label><input type="number" id="m-larg-costa"></div>
+                                    <div class="input-group"><label>Ombro</label><input type="number" id="m-ombro"></div>
+                                    <div class="input-group"><label>Larg. Braço</label><input type="number" id="m-larg-braco"></div>
+                                    <div class="input-group"><label>Larg. Punho</label><input type="number" id="m-larg-punho"></div>
+                                    <div class="input-group"><label>Alt. Manga Longa</label><input type="number" id="m-manga-longa"></div>
+                                    <div class="input-group"><label>Alt. Manga Curta</label><input type="number" id="m-manga-curta"></div>
+                                    <div class="input-group"><label>Alt. Quadril</label><input type="number" id="m-alt-quadril"></div>
+                                    <div class="input-group"><label>Alt. Gancho</label><input type="number" id="m-alt-gancho"></div>
+                                    <div class="input-group"><label>Alt. Joelho</label><input type="number" id="m-alt-joelho"></div>
+                                    <div class="input-group"><label>Larg. Joelho</label><input type="number" id="m-larg-joelho"></div>
+                                    <div class="input-group"><label>Larg. Tornozelo</label><input type="number" id="m-tornozelo"></div>
+                                    <div class="input-group"><label>Bainha</label><input type="number" id="m-tornozelo"></div>
+                                </div>
+                            </fieldset>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Salvar Ficha do Cliente</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card mt-6">
+                        <h3><i data-lucide="book-open"></i> Livro de Clientes e Medidas</h3>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Contato</th>
+                                        <th>Endereço Completo</th>
+                                        <th>Tam.</th>
+                                        <th>Medidas Principais (Pesc / Tórax / Busto)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista-clientes-body">
+                                    <tr class="empty-row"><td colspan="5">Nenhum cliente catalogado na banca de corte.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-funcionarios" class="tab-pane hidden">
+                    <div class="card">
+                        <h3><i data-lucide="user-check"></i> Ficha Cadastral do Colaborador</h3>
+                        <form id="form-funcionario" onsubmit="cadastrarFuncionario(event)">
+                            <div class="row cols-3">
+                                <div class="input-group span-2">
+                                    <label>Nome Completo</label>
+                                    <input type="text" id="func-nome" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>WhatsApp</label>
+                                    <input type="text" id="func-whatsapp" required>
+                                </div>
+                            </div>
+                            <div class="row cols-2">
+                                <div class="input-group">
+                                    <label>E-mail</label>
+                                    <input type="email" id="func-email" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Função / Cargo no Atelier</label>
+                                    <input type="text" id="func-funcao" placeholder="Ex: Cortadora, Modelista, Costureira Plena" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-group">
+                                    <label>Endereço Residencial</label>
+                                    <input type="text" id="func-endereco" required>
+                                </div>
+                            </div>
+                            <div class="row cols-4 row-financeiro">
+                                <div class="input-group">
+                                    <label>Data de Contratação</label>
+                                    <input type="date" id="func-contratacao" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Data de Férias</label>
+                                    <input type="date" id="func-ferias">
+                                </div>
+                                <div class="input-group">
+                                    <label>Salário Fixo (R$)</label>
+                                    <input type="number" step="0.01" id="func-salario" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Comissão (%)</label>
+                                    <input type="number" step="0.1" id="func-comissao" placeholder="0">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Registrar Colaborador</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="tab-os" class="tab-pane hidden">
+                    <div class="split-layout">
+                        <div class="card flex-grow-2">
+                            <h3><i data-lucide="layers"></i> Especificações de Confecção e Insumos</h3>
+                            <div class="row">
+                                <div class="input-group">
+                                    <label>Tipo do Serviço / Peça a ser produzida</label>
+                                    <input type="text" id="os-tipo-servico" placeholder="Ex: Vestido de Noiva Sereia Zibeline">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-group">
+                                    <label>Valor da Mão de Obra / Serviço Base (R$)</label>
+                                    <input type="number" step="0.01" id="os-valor-servico" value="0.00" oninput="calcularTotalOS()">
+                                </div>
+                            </div>
+
+                            <fieldset class="tailor-fieldset-dashed">
+                                <legend>Aviamentos e Insumos Utilizados</legend>
+                                <div class="row cols-3 align-end">
+                                    <div class="input-group span-2">
+                                        <label>Nome do Insumo (Linha, Tecido, Botão, Renda...)</label>
+                                        <input type="text" id="insumo-nome" placeholder="Ex: Tecido Crepe Vogue 3 metros">
+                                    </div>
+                                    <div class="input-group flex-row">
+                                        <div class="flex-grow">
+                                            <label>Preço de Custo (R$)</label>
+                                            <input type="number" step="0.01" id="insumo-custo" value="0.00">
+                                        </div>
+                                        <button type="button" onclick="adicionarInsumo()" class="btn-add-insumo" title="Adicionar Insumo">+</button>
+                                    </div>
+                                </div>
+                                <ul id="os-lista-insumos" class="aviamentos-list mt-3">
+                                    <li class="placeholder-item">Nenhum insumo ou aviamento indexado a esta peça.</li>
+                                </ul>
+                            </fieldset>
+                        </div>
+
+                        <div class="card card-fechamento">
+                            <h3>Livro de Custos de Produção</h3>
+                            <div class="calc-line">
+                                <span>Mão de Obra Base:</span>
+                                <strong id="calc-subtotal-servico">R$ 0,00</strong>
+                            </div>
+                            <div class="calc-line">
+                                <span>Custos de Insumos:</span>
+                                <strong id="calc-subtotal-insumos">R$ 0,00</strong>
+                            </div>
+                            <div class="calc-line total-line">
+                                <span>Valor Consolidado:</span>
+                                <span id="calc-total-final" class="bordo-total-price">R$ 0,00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-reparos" class="tab-pane hidden">
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3><i data-lucide="needle"></i> Controle de Ajustes e Consertos</h3>
+                            <div class="bordo-id-badge">ID SERVIÇO: <strong id="reparo-generated-id">OS-000000</strong></div>
+                        </div>
+                        
+                        <form id="form-reparo" onsubmit="emitirOrdemReparo(event)">
+                            <div class="row relative-container">
+                                <div class="input-group">
+                                    <label>Selecionar Cliente (Pesquisa Automática no Acervo)</label>
+                                    <div class="search-input-wrapper">
+                                        <i data-lucide="search" class="search-icon"></i>
+                                        <input type="text" id="reparo-busca-cliente" oninput="filtrarClientesDropdown()" placeholder="Digite as primeiras letras do cliente...">
+                                    </div>
+                                    <div id="reparo-dropdown-resultados" class="autocomplete-dropdown hidden"></div>
+                                    
+                                    <div id="reparo-cliente-selecionado-badge" class="selected-badge hidden">
+                                        <span><i data-lucide="user-check"></i> Cliente Vinculado: <strong id="reparo-nome-cliente-confirmado">Nenhum</strong></span>
+                                        <button type="button" onclick="desvincularClienteReparo()">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row cols-2">
+                                <div class="input-group">
+                                    <label>Tipo do Ajuste / Serviço de Reparo</label>
+                                    <input type="text" id="reparo-tipo" placeholder="Ex: Fazer barra invisível e ajustar pence lateral" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Valor Total Somado (Mão de Obra + Material) (R$)</label>
+                                    <input type="number" step="0.01" id="reparo-valor" required>
+                                </div>
+                            </div>
+
+                            <div class="row cols-2">
+                                <div class="input-group">
+                                    <label>Data de Entrada do Serviço</label>
+                                    <input type="date" id="reparo-data-entrada" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Prazo Limite de Entrega</label>
+                                    <input type="date" id="reparo-data-prazo" required>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Registrar Ordem de Reparo</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card mt-6">
+                        <h3><i data-lucide="clock"></i> Status do Varal de Peças Prontas e Retiradas</h3>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID da OS</th>
+                                        <th>Cliente</th>
+                                        <th>Ajuste Solicitado</th>
+                                        <th>Cronograma (Entrada / Prazo)</th>
+                                        <th>Valor Total</th>
+                                        <th>Situação</th>
+                                        <th>Tempo de Espera no Atelier</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista-reparos-body">
+                                    <tr class="empty-row"><td colspan="8">Nenhuma peça em monitoramento no varal de reparos.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        if(menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+        }
+    </script>
+    <script src="models/classes.js"></script>
+</body>
+</html>
